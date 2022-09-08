@@ -1,0 +1,7 @@
+Center column - 3 points
+4 circles in a window - 10000 points (a W)
+3 circles and 1 empty spot - 5
+2 circles and 2 empty spots - 2
+3 opponent circles and 1 empty spot - -4 points
+
+PS: Empty spots are important because there is a chance to win then, otherwise it would be just uneffective blocking :)
