@@ -166,7 +166,6 @@ class Game:
         return moves
 
     def minimax(self, board, depth, max_player):
-        # print(f"Minimax: depth-{depth}, maxplayer-{max_player}")
 
         computer_player = 0 if self.human_turn == 1 else 1
 
@@ -185,7 +184,6 @@ class Game:
             value = -math.inf
             position = random.choice(self.get_available_moves(board))
             for pos in self.get_available_moves(board):
-                # print(f"Pos: {pos}")
                 board_copy = []
                 for i in range(len(board)):
                     board_copy.append([])
@@ -194,7 +192,6 @@ class Game:
 
                 self.drop_circle(board_copy, pos[0], pos[1], computer_player)
                 new_score = self.minimax(board_copy, depth - 1, False)[1]
-                # print(f"Max player: value-{value}, newscore-{new_score}")
                 if new_score > value:
                     value = new_score
                     position = pos
@@ -205,7 +202,6 @@ class Game:
             value = math.inf
             position = random.choice(self.get_available_moves(board))
             for pos in self.get_available_moves(board):
-                # print(f"Pos: {pos}")
                 board_copy = []
                 for i in range(len(board)):
                     board_copy.append([])
@@ -214,7 +210,6 @@ class Game:
 
                 self.drop_circle(board_copy, pos[0], pos[1], self.human_turn)
                 new_score = self.minimax(board_copy, depth - 1, True)[1]
-                # print(f"Min player: value-{value}, newscore-{new_score}")
                 if new_score < value:
                     value = new_score
                     position = pos
@@ -255,32 +250,19 @@ class Game:
                 if board[row + 1][3].color == self.colors[player]:
                     score += 3
 
-        # print(f"Move: {self.move_count}")
-        center_points = score
-        # print(f"Center column points: {center_points}")
-
         # Score horizontal
         for row in range(ROWS):
             row_list = board[row + 1]
-            # print("Row list: " + str(row_list))
             for col in range(COLS - 3):
                 window = row_list[col:col + WINDOW_LENGTH]
-                # print(window)
                 score += self.score_win(window, player)
-
-        hor_points = score - center_points
-        # print(f"Horizontal points: {hor_points}")
 
         # Score vertical
         for col in range(COLS):
             col_list = [board[i + 1][col] for i in range(ROWS)]
-            # print(f"Col list for col - {col}: {col_list}")
             for row in range(ROWS - 3):
                 window = col_list[row + 1:row + 1 + WINDOW_LENGTH]
                 score += self.score_win(window, player)
-
-        ver_points = score - center_points - hor_points
-        # print(f"Vertical points: {ver_points}")
 
         # Score positively sloped diagonals
         for row in range(ROWS - 3):
@@ -288,17 +270,10 @@ class Game:
                 window = [board[row + 3 + 1 - i][col + i] for i in range(WINDOW_LENGTH)]
                 score += self.score_win(window, player)
 
-        pos_diag_points = score - center_points - hor_points - ver_points
-        # print(f"Positively sloped diagonals points: {pos_diag_points}")
-
         # Score positively sloped diagonals
         for row in range(ROWS - 3):
             for col in range(COLS - 3):
                 window = [board[row + 1 + i][col + i] for i in range(WINDOW_LENGTH)]
                 score += self.score_win(window, player)
-
-        neg_diag_points = score - center_points - hor_points - ver_points - pos_diag_points
-        # print(f"Negatively sloped diagonals points: {neg_diag_points}")
-        # print(f"Total score: {score}")
 
         return score

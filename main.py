@@ -32,7 +32,6 @@ def main():
                         game.clicked()
                 else:
                     move, minimax_score = game.minimax(game.board, DEPTH, True)
-                    # print(f"Move: {move}\nScore: {minimax_score}")
 
                     for col in range(COLS):
                         if game.get_circle(game.starting_pos[0], col, game.board):
